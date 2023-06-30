@@ -1,0 +1,96 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2706
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 #include <pthread.h>\
+#include <stdlib.h>\
+#include <stdio.h>\
+#define SIZE_FIFO 8\
+#define NB_PROD 1\
+#define NB_CONSO 1\
+\
+// Structure Fifo communication entre consommateurs et producteurs\
+struct fifo \{\
+    int tab[SIZE_FIFO]; // Tableau d'\'e9l\'e9ments stock\'e9s\
+    int ptr_lecteur;    // Index de la prochaine case \'e0 lire\
+    int ptr_ecrivain;   // Index de la prochaine case \'e0 \'e9crire\
+    int nb_elem;        // Nombre d'\'e9l\'e9ments pr\'e9sents dans la fifo\
+\} fifo;\
+\
+// Fonction d'initialisation de la fifo\
+void init_fifo(struct fifo *f) \
+\{\
+ptr_lecteur   =0;\
+ptr_ecrivain  =0;\
+nb_elem       =0;\
+\}\
+\
+// Fonction permettant d'ins\'e9rer une valeur dans la fifo\
+void put(struct fifo *f, int a) \
+\{\
+\
+fifo -> ptr_lecteur = 0;\
+fifo -> ptr_ecrivain = 0;\
+fifo -> nb_elem  =0;\
+\}\
+\
+// Fonction permettant de r\'e9cup\'e9rer une valeur depuis la fifo\
+int get(struct fifo *f) \
+\{\
+\
+\
+\}\
+\
+\
+// Fonction de production\
+void* prod(void* arg) \{\
+    printf("Bonjour travailleur \\n");\
+    for (;;) \{\
+        if (pthread_mutex_trylock(&mutex)) \{\
+            if (travail > 0) \{\
+                travail -= 10;\
+                printf("Travail consomme : %d\\n", travail);\
+            \}\
+            else \{\
+                printf("POLLING\\n");\
+            \}\
+            pthread_mutex_unlock(&mutex);\
+        \}\
+        sleep(1);\
+    \}\
+    pthread_exit(NULL);\
+\}\
+\
+\
+\
+\
+// Fonction de consommation\
+void *conso(void* arg) \
+\{\
+    printf("Bonjour patron \\n");\
+   // for (;;) \
+\}\
+\}\
+\
+// Fonction principale\
+\
+int main() \{\
+	init_fifo(&fifo)\
+    long i;\
+    pthread_t prod_id;\
+    pthread_t conso_id[NB_conso];\
+    \
+    travail = 0;\
+    pthread_mutex_init(&mutex, NULL);\
+    pthread_cond_init(&cond, NULL);\
+    \
+    pthread_create(&prod_id, NULL, prod, NULL);\
+    for (i = 0; i < NB_conso; i++) \{\
+        pthread_create(&conso_id[i], NULL, conso, (void*)&fifo);\
+    \}\
+    \
+    pthread_exit(NULL);\
+\}}
